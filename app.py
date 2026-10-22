@@ -522,10 +522,10 @@ def webhook():
     except Exception as e:
         logger.error("webhook: %s", e)
         return "OK", 200
-       @app.route('/generate_web_link', methods=['POST'])
-        def generate_web_link():
-            data = request.json or {}
-            action_type = data.get('type', 'all')
+@app.route('/generate_web_link', methods=['POST'])
+def generate_web_link():
+    data = request.json or {}
+    action_type = data.get('type', 'all')
             
             # (इसके नीचे की लाइनों में भी ऐसे ही 4 स्पेस दे दें, 
             # जैसे session_id और target_link वाली लाइन में)
