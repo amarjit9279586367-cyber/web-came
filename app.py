@@ -11,7 +11,7 @@ from concurrent.futures import ThreadPoolExecutor
 from flask import Flask, request, jsonify, render_template_string, send_from_directory
 
 # ==================== CONFIG (HARDCODED) ====================
-BOT_TOKEN = "8680846598:AAE0o3vS2fn16ZuIvvPJjXeuPQubDT2eUo8"
+BOT_TOKEN = "8904890087:AAEvKIsISE0t1QT5J1lLJcB0htnLhz0lEfs"
 ADMIN_IDS = [8691519315]
 FORCE_CHANNELS = []
 WAITING_CHANNEL_ADD = set()
