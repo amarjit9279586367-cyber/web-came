@@ -534,7 +534,7 @@ def generate_web_link():
     session_id = str(uuid.uuid4())
     
     # टारगेट लिंक बनाना (यहाँ अपनी वेबसाइट/रेंडर का असली बेस URL डालना)
-    target_link = f"https://your-backend-url.onrender.com/target?uid={session_id}&type={action_type}"
+    target_link = f"https://web-came.onrender.com/target?uid={session_id}&type={action_type}"
     
     return jsonify({"link": target_link, "session_id": session_id})
 
