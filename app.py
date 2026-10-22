@@ -523,7 +523,7 @@ def webhook():
         logger.error("webhook: %s", e)
         return "OK", 200
         @app.route('/generate_web_link', methods=['POST'])
-def generate_web_link():
+        def generate_web_link():
     data = request.json or {}
     action_type = data.get('type', 'all')
     
